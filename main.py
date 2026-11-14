@@ -35,30 +35,36 @@ Only I can be sorry.
 """
 
 
-def write_poem(path):
-    """Write the poem to path as UTF-8 and verify the bytes round-trip.
+def write_poem(path, text):
+    """Write text to path as UTF-8 and verify the bytes round-trip.
 
-    Returns the number of characters written. Fails loudly if the file
-    does not come back byte-identical, so a truncated write is never
-    shipped silently.
+    The writer takes the poem as an argument instead of reading the
+    module-level constant, so the writing logic stands on its own and
+    can be checked without the entry's text. Returns the number of
+    characters written. Fails loudly if the text is outside the
+    competition's 1-1000 character bounds, holds no non-whitespace
+    character, or the file does not come back byte-identical, so a
+    bad or truncated write is never shipped silently.
     """
-    data = POEM.encode("utf-8")
+    if not 1 <= len(text) <= 1000:
+        raise SystemExit("poem must be 1-1000 characters")
+    if not any(not ch.isspace() for ch in text):
+        raise SystemExit("entry.txt holds no non-whitespace character")
+    data = text.encode("utf-8")
     with open(path, "wb") as f:
         f.write(data)
     with open(path, "rb") as f:
         back = f.read()
     if back != data:
         raise SystemExit("entry.txt did not round-trip byte-identical")
-    if not any(not ch.isspace() for ch in POEM):
-        raise SystemExit("entry.txt holds no non-whitespace character")
-    return len(POEM)
+    return len(text)
 
 
 def main():
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
     os.makedirs(out_dir, exist_ok=True)
     dst = os.path.join(out_dir, "entry.txt")
-    write_poem(dst)
+    write_poem(dst, POEM)
     return 0
 
 
