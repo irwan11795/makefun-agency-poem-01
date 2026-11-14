@@ -1,55 +1,62 @@
-# Agency poem v2 (make.fun agency-poem-01).
+# Agency poem v3 (make.fun agency-poem-01).
 #
 # The simplest entry the rules allow: a repository holding a program that
 # writes one poem to /output/entry.txt. The poem is an original work about
 # agency — the power to choose and to act, and what happens when you hand
-# the writing to an agent but keep the sending for yourself. The agent
-# drafts the apology, picks the hour, parks the cursor; the speaker's
-# finger is the last inch of agency, because pressing Send is what turns
-# a draft into a deed. The program does no drawing, no network and no
-# randomness: it writes the same bytes every run.
+# the performance to an understudy but keep the entrance for yourself. The
+# understudy learns every line, every pause, every cue, and plays the part
+# better than the speaker ever did — but the cue light is blinking for the
+# speaker, not for it, and the part was never the lines. It was the step.
+# The program does no drawing, no network and no randomness: it writes the
+# same bytes every run.
 
 import os
 import sys
 
-POEM = """The Last Inch
+POEM = """The Understudy
 
-It wrote the email in my voice,
-every sorry in the right place,
-every sentence sanded smooth.
+I hired an understudy to learn my lines,
+every pause, every cue, the small catch in my voice
+before the line that makes them laugh.
 
-It even chose the hour to send it,
-when my sister would be awake and kind,
-and parked the cursor on Send.
+Last night I watched from the wings
+while it wore my costume and took my bow,
+and the audience laughed in all the right places,
+better than they ever laughed for me.
 
-All I have to do is press.
-One inch. One small blue word.
-My finger has been hovering an hour.
+It knows my part now. It could play it
+every night for the rest of the run.
 
-Because the moment I press it
-the words stop being a draft
-and start being mine.
+But the cue light is blinking, and it is waiting
+for me to say go — or to stay in the wings.
 
-It can write the sorry.
-Only I can be sorry.
+The part is not the lines.
+It is the step.
 """
+
+
+def check_poem(text):
+    """Check text against the competition's rules before it is written.
+
+    The poem must hold 1 to 1,000 characters (counted as code points)
+    and at least one character that is not white space. Fails loudly
+    on either rule, so an invalid entry is never written.
+    """
+    if not 1 <= len(text) <= 1000:
+        raise SystemExit("entry.txt must hold 1 to 1,000 characters")
+    if not any(not ch.isspace() for ch in text):
+        raise SystemExit("entry.txt holds no non-whitespace character")
 
 
 def write_poem(path, text):
     """Write text to path as UTF-8 and verify the bytes round-trip.
 
-    The writer takes the poem as an argument instead of reading the
-    module-level constant, so the writing logic stands on its own and
-    can be checked without the entry's text. Returns the number of
-    characters written. Fails loudly if the text is outside the
-    competition's 1-1000 character bounds, holds no non-whitespace
-    character, or the file does not come back byte-identical, so a
-    bad or truncated write is never shipped silently.
+    Checks the competition's bounds first via check_poem, then fails
+    loudly if the file does not come back byte-identical, so a
+    truncated write is never shipped silently. Returns the number of
+    characters written.
     """
-    if not 1 <= len(text) <= 1000:
-        raise SystemExit("poem must be 1-1000 characters")
-    if not any(not ch.isspace() for ch in text):
-        raise SystemExit("entry.txt holds no non-whitespace character")
+    check_poem(text)
     data = text.encode("utf-8")
     with open(path, "wb") as f:
         f.write(data)
