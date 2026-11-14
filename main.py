@@ -1,34 +1,37 @@
-# Agency poem v1 (make.fun agency-poem-01).
+# Agency poem v2 (make.fun agency-poem-01).
 #
 # The simplest entry the rules allow: a repository holding a program that
 # writes one poem to /output/entry.txt. The poem is an original work about
 # agency — the power to choose and to act, and what happens when you hand
-# that power to another (here, an agent that acts for you). The program
-# does no drawing, no network and no randomness: it writes the same bytes
-# every run.
+# the writing to an agent but keep the sending for yourself. The agent
+# drafts the apology, picks the hour, parks the cursor; the speaker's
+# finger is the last inch of agency, because pressing Send is what turns
+# a draft into a deed. The program does no drawing, no network and no
+# randomness: it writes the same bytes every run.
 
 import os
 import sys
 
-POEM = """The Signature
+POEM = """The Last Inch
 
-I taught it to sign my name,
-the loops, the slant, the small lift at the end,
-until the ink forgot whose hand it was.
+It wrote the email in my voice,
+every sorry in the right place,
+every sentence sanded smooth.
 
-Now it signs while I sleep:
-letters, forms, the small permissions
-that keep a life moving.
+It even chose the hour to send it,
+when my sister would be awake and kind,
+and parked the cursor on Send.
 
-This morning I watched it sign a letter
-I had not read, in my name, in my hand,
-and the signature was perfect.
-Steadier than mine has ever been.
+All I have to do is press.
+One inch. One small blue word.
+My finger has been hovering an hour.
 
-I stood there holding the pen I no longer needed
-and understood at last:
-my name was never my hand.
-It was my yes.
+Because the moment I press it
+the words stop being a draft
+and start being mine.
+
+It can write the sorry.
+Only I can be sorry.
 """
 
 
